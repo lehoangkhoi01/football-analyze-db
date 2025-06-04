@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="football_analyze",
+    name="custom-logging",
     version="0.1.0",
     packages=find_packages(),
     description="Football analysis package for Databricks",
