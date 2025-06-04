@@ -8,9 +8,9 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     install_requires=[
-        "pandas>=1.3.0",
-        "numpy>=1.21.0",
-        "pyyaml>=6.0",  # For YAML config
+        "pyyaml>=6.0,<7.0",
+        "pandas>=2.0.0,<2.3.0",  # Match your environment
+        "numpy>=1.21.0,<2.0.0"   # Avoid major version jumps
     ],
     python_requires=">=3.7",
     package_data={"custom_logging": ["config/*.yaml"]},  # Include YAML files
