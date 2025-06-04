@@ -10,22 +10,11 @@ handlers:
   console:
     class: logging.StreamHandler
     level: INFO
-    formatter: standard
+    formatter: standard  # ← Correct: Reference only (no quotes)
     stream: ext://sys.stdout
-
-  file_handler:
-    class: logging.FileHandler
-    level: DEBUG
-    formatter: standard
-    filename: /dbfs/logs/databricks_app.log  # DBFS path for persistence
-    encoding: utf-8
 
 loggers:
   databricks:
     level: DEBUG
-    handlers: [console, file_handler]
+    handlers: [console]
     propagate: no
-
-root:
-  level: INFO
-  handlers: [console]

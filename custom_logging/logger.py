@@ -59,13 +59,23 @@ class DatabricksLogger:
         return logging.getLogger(self.name)
 
     def _load_config(self) -> Dict[str, Any]:
-        """Load YAML config with path validation"""
-        path = Path(self.config_path)
-        if not path.exists():
-            raise FileNotFoundError(f"Config file not found at {path}")
-        
-        with open(path, 'r') as f:
-            return yaml.safe_load(f)
+        """Load and validate YAML config"""
+        try:
+            with open(self.config_path, 'r') as f:
+                config = yaml.safe_load(f)
+            
+            # Critical validation
+            if not isinstance(config.get("formatters", {}), dict):
+                raise ValueError("'formatters' must be a dictionary")
+            
+            for handler_name, handler_config in config.get("handlers", {}).items():
+                if "formatter" not in handler_config:
+                    raise ValueError(f"Handler '{handler_name}' missing 'formatter' key")
+            
+            return config
+        except Exception as e:
+            self.logger.error(f"Invalid logging config: {str(e)}")
+            return self.defaults
 
     def get_logger(self) -> logging.Logger:
         """Get the configured logger instance"""
