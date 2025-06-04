@@ -12,7 +12,7 @@ class DatabricksLogger:
             config_path: Path to YAML config (defaults to package defaults)
         """
         self.name = name
-        self.config_path = config_path or str(Path(__file__).parent / "config/defaults.yaml"
+        self.config_path = config_path or str(Path(__file__).parent) / "config/defaults.yaml"
         self._configure_logging()
 
     def _configure_logging(self) -> None:
