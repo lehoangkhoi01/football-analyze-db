@@ -13,7 +13,5 @@ setup(
         "pyyaml>=6.0",  # For YAML config
     ],
     python_requires=">=3.7",
-    author="Khoi Le",
-    author_email="khoileit01@gmail.com",
-    url="https://github.com/lehoangkhoi01/football_analyze-db",
+    package_data={"custom_logging": ["config/*.yaml"]},  # Include YAML files
 )
