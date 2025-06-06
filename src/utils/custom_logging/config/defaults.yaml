@@ -10,7 +10,7 @@ handlers:
   console:
     class: logging.StreamHandler
     level: INFO
-    formatter: standard  # ← Correct: Reference only (no quotes)
+    formatter: standard
     stream: ext://sys.stdout
 
 loggers:
