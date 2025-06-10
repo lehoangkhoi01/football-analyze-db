@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = "==3.13.*"
 pyspark = "3.4.0"
 python-dotenv = "^1.0.0"
 azure-storage-blob = "^12.17.0"
@@ -16,6 +16,7 @@ pyarrow = "20.0"
 openpyxl = "^3.1.0"
 pandas = "^2.3.0"
 databricks-cli = "^0.18.0"
+dotenv = "^0.9.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

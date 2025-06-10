@@ -1,0 +1,32 @@
+# The main job for football_analyze_db_demo.
+resources:
+  jobs:
+    football_analyze_db_demo_job:
+      name: football_analyze_db_demo_job
+
+      trigger:
+        # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
+        periodic:
+          interval: 1
+          unit: DAYS
+
+      email_notifications:
+        on_failure:
+          - rayz.le0115@gmail.com
+
+      tasks:
+        - task_key: notebook_task
+          job_cluster_key: job_cluster
+          notebook_task:
+            notebook_path: ../src/notebook.ipynb
+        
+
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D3_v2
+            data_security_mode: SINGLE_USER
+            autoscale:
+                min_workers: 1
+                max_workers: 4
