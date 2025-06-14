@@ -337,6 +337,48 @@ class UnifiedDataUtils:
             logger.error(f"Error writing CSV to {path}: {str(e)}")
             return False
     
+    
+    def write_single_json(self, df: DataFrame, output_path: str, filename: str="data.json") -> bool: 
+        """Write DataFrame to a single JSON file"""
+        try:
+            temp_dir = f"{output_path}_temp"
+            # Write to temporary directory
+            df.coalesce(1).write.mode("overwrite").json(temp_dir)
+        
+            # Find the part file
+            part_files = [f for f in os.listdir(temp_dir) if f.startswith("part-") and f.endswith(".json")]
+        
+            if part_files:
+                # Create output directory if it doesn't exist
+                os.makedirs(output_path, exist_ok=True)
+                
+                # Read JSON Lines and convert to array format
+                temp_file_path = os.path.join(temp_dir, part_files[0])
+                output_file_path = os.path.join(output_path, filename)
+                
+                # Convert JSON Lines to JSON array
+                json_objects = []
+                with open(temp_file_path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line:  # Skip empty lines
+                            json_objects.append(json.loads(line))
+                
+                # Write as proper JSON array
+                with open(output_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(json_objects, f, indent=2, ensure_ascii=False)
+                
+                # Clean up temp directory
+                shutil.rmtree(temp_dir)
+                return True
+            else:
+                logger.error(f"Error writing JSON to {output_path}/{filename}: Can not find part file")
+                shutil.rmtree(temp_dir)
+                return False
+        except Exception as e:
+            logger.error(f"Error writing JSON to {output_path}/{filename}: {str(e)}")
+            return False
+        
     # ============ PATH UTILITIES ============
     
     def get_layer_path(self, layer: str, table_name: Optional[str] = None) -> str:
